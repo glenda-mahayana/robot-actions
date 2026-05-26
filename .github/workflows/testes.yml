@@ -25,7 +25,9 @@ jobs:
       uses: actions/setup-python@v6.2.0
       with: 
         python-version: 3.12
-    - name: Test
+    - name: Install Deps
       run: 
-        node --version
-        python --version
+        python -m pip install --upgrade pip
+        python install -r requirements.txt
+    - name: Browser Init
+      run: rfBrowser init
