@@ -39,3 +39,6 @@ jobs:
 
       - name: Run Tests
         run: robot .
+
+      - name: run E2E tests
+        run: robot -d ./logs -i smoke tests
