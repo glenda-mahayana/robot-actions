@@ -12,7 +12,7 @@ on:
       - main
 
 jobs:
-  tests:
+  chrome:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +41,52 @@ jobs:
         run: robot .
 
       - name: run E2E tests
-        run: robot -d ./logs tests
+        run: robot -d ./logs -v BROWSER:chromium tests
+
+      - name: Robot Reporter
+        uses: joonvena/robotframework-reporter-action@v2.4
+        if: always() 
+        with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
+          report_path: logs
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: Test Report
+          path: logs
+
+firefox:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6.0.3
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: 20
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Browser Init
+        run: rfbrowser init
+
+      - name: Run Tests
+        run: robot .
+
+      - name: run E2E tests
+        run: robot -d ./logs -v BROWSER:firefox tests
 
       - name: Robot Reporter
         uses: joonvena/robotframework-reporter-action@v2.4
