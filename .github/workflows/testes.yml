@@ -99,5 +99,5 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
-          name: Test Report
+          name: Firefox Test Report
           path: logs
