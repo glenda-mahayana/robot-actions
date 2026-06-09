@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
-          name: Test Report
+          name: Chrome Test Report
           path: logs
 
   firefox:
